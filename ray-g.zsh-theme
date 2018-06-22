@@ -47,7 +47,8 @@ function set_theme() {
     ZSH_THEME_GIT_PROMPT_DIRTY="$fg[red]+"
     ZSH_THEME_GIT_PROMPT_CLEAN="$fg[green]"
 
-    PROMPT='%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd)$(put_spacing) $(git_prompt_info)
+    PROMPT='
+%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd)$(put_spacing) $(git_prompt_info)
 %{$fg_bold[grey]%}╰${ret_status}${exit_code}%{$reset_color%} '
 
     if [ -z "${MY_TITLE_NAME+xxx}" ]; then
