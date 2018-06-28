@@ -27,7 +27,17 @@ function put_spacing
     for i in {1..$termwidth}; do
         spacing="${spacing} "
     done
-    echo $spacing
+    echo "$spacing"
+}
+
+VIRTUAL_ENV_DISABLE_PROMPT=true
+prompt_virtualenv() {
+  local virtualenv_path="$VIRTUAL_ENV"
+  if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
+    echo "[venv: $(basename $virtualenv_path)]"
+  elif which pyenv &> /dev/null; then
+    echo "[venv: $(pyenv version | sed -e 's/ (set.*$//' | tr '\n' ' ' | sed 's/.$//')]"
+  fi
 }
 
 function git_prompt_info() {
@@ -44,11 +54,10 @@ function set_theme() {
 
     ZSH_THEME_GIT_PROMPT_PREFIX="[git:"
     ZSH_THEME_GIT_PROMPT_SUFFIX="]$reset_color"
-    ZSH_THEME_GIT_PROMPT_DIRTY="$fg[red]+"
+    ZSH_THEME_GIT_PROMPT_DIRTY="$fg[red]"
     ZSH_THEME_GIT_PROMPT_CLEAN="$fg[green]"
 
-    PROMPT='
-%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd) $(git_prompt_info)
+    PROMPT='%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd)  $(git_prompt_info) $(prompt_virtualenv)
 %{$fg_bold[grey]%}╰${ret_status}${exit_code}%{$reset_color%} '
 
     if [ -z "${MY_TITLE_NAME+xxx}" ]; then
